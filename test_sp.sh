@@ -5,8 +5,8 @@ OPTIONS="-v "
 # nb the proxy prefix
 #OPTIONS+="--proxy-insecure "
 
-OPTIONS+=" --tlsv1.1 --tls-max 1.1"
-#OPTIONS+=" --tlsv1.2 --tls-max 1.2"
+#OPTIONS+=" --tlsv1.1 --tls-max 1.1"
+OPTIONS+=" --tlsv1.2 --tls-max 1.2"
 #
 
 # bad certs

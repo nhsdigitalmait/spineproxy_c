@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
+#include <ctype.h>
 #include "spineproxy.h"
 
 #define CONFIG_FILE_BUFFER_SIZE 20000

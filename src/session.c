@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include "spineproxy.h"
 #include <stdlib.h>
 #include <errno.h>
@@ -9,6 +11,12 @@
 #include <sys/stat.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <ctype.h>
+#if defined __x86_64__
+#include <arpa/inet.h>
+#endif
+
+
 
 #ifndef _EXCLUDE_VALUES_H_
 #include <values.h>
@@ -285,7 +293,13 @@ struct sockaddr_in* gethostname(char* host, struct sockaddr_in* socketaddress) {
 		free(tmpbuf);
 		return NULL;
 	}
-	socketaddress->sin_addr = *(struct in_addr *)hent.h_addr;	
+	
+#if defined __x86_64__
+    inet_aton(host,(struct in_addr *) &(socketaddress->sin_addr.s_addr));
+#else
+    socketaddress->sin_addr = *(struct in_addr *)hent.h_addr;	
+#endif
+    
 	free(tmpbuf);
 #else
 	hp = gethostbyname(host);
@@ -333,7 +347,7 @@ void doClearForwardConnection(session* s, char* h, int useTLSport) {
 
 void doTLSforwardConnection(session* s, char* h) {
 	if (!s->forwarder->forward_context) {
-		if (!(s->forwarder->forward_context = SSL_CTX_new(TLSv1_client_method()))) {
+    	if (!(s->forwarder->forward_context = SSL_CTX_new(TLSv1_2_client_method()))) {
 			snprintf(error_string, ERROR_STRING_LENGTH, "ERROR creating outbound TLS context: %s\n", ERR_reason_error_string(ERR_get_error()));
 			errno = ECANCELED;
 			perror(error_string);

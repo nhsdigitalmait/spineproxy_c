@@ -90,7 +90,7 @@ char* makeAck(session* s) {
 		/*
 			Return an HTTP "not implemented" and exit
 		*/
-		char *ping = (char*)malloc(strlen(PING_HEADER) * sizeof(char));
+		char *ping = (char*)malloc((strlen(PING_HEADER)+1) * sizeof(char));
 		strcpy(ping, PING_HEADER);
 		return ping;	
 	}
@@ -103,11 +103,11 @@ char* makeAck(session* s) {
 		so that we know how big the ack actually is, for the content-length header.
 	*/
 	strcpy(body, ACK_BODY_1);
-	strcat(body, s->topartyid);
+	if (s->topartyid) strcat(body, s->topartyid);
 	strcat(body, ACK_BODY_2);
-	strcat(body, s->frompartyid);
+	if (s->frompartyid) strcat(body, s->frompartyid);
 	strcat(body, ACK_BODY_3);
-	strcat(body, s->conversationid);
+	if (s->conversationid) strcat(body, s->conversationid);
 	strcat(body, ACK_BODY_4);
 	char *ackmsgid = makeAckMessageId();
 	strcat(body, ackmsgid);
@@ -116,11 +116,11 @@ char* makeAck(session* s) {
 	char *ts = makeAckMessageTime();	
 	strcat(body, ts);
 	strcat(body, ACK_BODY_6);
-	strcat(body, s->msgid);
+	if (s->msgid) strcat(body, s->msgid);
 	strcat(body, ACK_BODY_7);
 	strcat(body, ts);
 	strcat(body, ACK_BODY_8);
-	strcat(body, s->msgid);
+	if (s->msgid) strcat(body, s->msgid);
 	strcat(body, ACK_BODY_9);
 	
 	int length = strlen(body);

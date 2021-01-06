@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include "spineproxy.h"
 #include <stdio.h>
 #include <pthread.h>
@@ -10,6 +12,9 @@
 #include <netdb.h>
 #include <string.h>
 #include <openssl/err.h>
+#if defined __x86_64__
+#include <arpa/inet.h>
+#endif
 
 void initForwarderTLS() {
 	forwarder_config* f = proxy->forwarders;
@@ -18,7 +23,7 @@ void initForwarderTLS() {
 			if (f->ssl_compatibility) {
 				f->listener_context = SSL_CTX_new(SSLv23_server_method());
 			} else {
-				f->listener_context = SSL_CTX_new(TLSv1_server_method());
+        		f->listener_context = SSL_CTX_new(TLSv1_2_server_method());
 			}
 			if (!SSL_CTX_load_verify_locations(f->listener_context, f->listener_ca_cert_file, f->listener_ca_cert_dir)) {
 				snprintf(error_string, ERROR_STRING_LENGTH, "Failed to load %s CA certificate file: %s\n", f->name, ERR_reason_error_string(ERR_get_error()));
@@ -110,7 +115,7 @@ void listener() {
 				exit(EXIT_FAILURE);
 			} else {
 				if (listen(listen_socket, LISTEN_BACKLOG) < 0) {
-					snprintf(error_string, ERROR_STRING_LENGTH, "Forwarder %s failed to listen to %s &i\nExitting proxy", f->name, f->listen_addr, f->listen_port);
+					snprintf(error_string, ERROR_STRING_LENGTH, "Forwarder %s failed to listen to %s %i\nExitting proxy", f->name, f->listen_addr, f->listen_port);
 					perror(error_string);
 					destroyProxy();
 					exit(EXIT_FAILURE);					
