@@ -20,10 +20,12 @@ PAYLOAD="-d '<wsa:MessageID>uuid:2BA6C8AD-097A-11E7-8EF8-738711186A40</wsa:Messa
 SOAPACTION=urn:nhs:names:services:pdsquery/QUPA_IN000005UK030
 #SOAPACTION=urn:nhs:names:services:mm/MCCI_IN010000UK13
 
+CP=B82617/STU3/1/gpconnect/fhir
+
 case $1 in
 	ln)
 	# NB re edit /etc/hosts after this 
-	# secure to non forwarding fromnis
+	# secure inbound to local non forwarding fromnis mimics an async response coming into fromnis
 
 	#TRUST="--proxy-cacert $ROOT/opentest.pem"
 	TRUST="--cacert $ROOT/opentest.pem"
@@ -32,15 +34,32 @@ case $1 in
 	DEST="https://$SUBJECT:4432"
 	;;
 
-	lf)
-	# clear to forwarding tonis
+	lfc)
+	# clear local outbound forwarding tonis forwarding to clear gpconnect service
 	PROXY="-x http://$SUBJECT:4300"
-	#local  listener for tonis forwarder test - will return a 404
-	DEST=http://192.168.1.112:4302 # me as gpconnect
+	#local  listener for tonis clear forwarder test - will return a 404 requires cfg send tls flag set to n
+	DEST=http://127.0.0.1:4854/$CP # me as gpconnect
+
+	# to gpc behind nginx - does not work! because curl strips port number 80 if http when in proxy mode and the proxy then replaces it with the spine proxy default clear port 4300!
+	#DEST=http://127.0.0.1/$CP # me as gpconnect
+	;;
+
+	lfs)
+	# clear local outbound forwarding tonis forwarding to secure gpconnect service requires cfg send tls flag set to y
+
+ 	# this fails because curl sends CONNECT not POST which is not what the proxy is expecting
+	#PROXY="-x http://$SUBJECT:4301"
+
+	#local  listener for tonis secure forwarder test - should return a 404
+	# this also fails because curl is including a leading / in the context path
+	DEST=http://127.0.0.1:4301/https://127.0.0.1:4433/$CP # me as secure gpconnect on port 443 via nginx
+
+	#netcat -q 5 -w 5 -N 127.0.0.1 4301 < message.txt
+	#exit
 	;;
 
 	rf)
-	# int clear forwarding tonis
+	# int clear forwarding tonis on baldricks targeted at INT spine 2
 	PROXY="-x http://baldricks:4300"
 	# int
 	DEST=https://10.239.14.26/reliablemessaging/queryrequest # spine 2 INT
@@ -52,6 +71,6 @@ case $1 in
 	;;
 esac
 
-curl $OPTIONS $PROXY $TRUST $CERTSET --pass password $PAYLOAD -H "soapaction: $SOAPACTION" $DEST
+curl $OPTIONS $PROXY $TRUST $CERTSET $PAYLOAD -H "soapaction: $SOAPACTION" $DEST | xmllint --format -
 
 #openssl s_client -connect 192.168.1.112:4432 -tls1_1

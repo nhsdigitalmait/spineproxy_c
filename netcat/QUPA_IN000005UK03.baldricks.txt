@@ -1,0 +1,94 @@
+POST /reliablemessaging/queryrequest HTTP/1.1
+Host: 10.239.14.26
+SOAPAction: urn:nhs:names:services:pdsquery/QUPA_IN000005UK03
+Content-Length: 3900
+Content-Type: text/xml; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Connection: close
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:hl7="urn:hl7-org:v3">
+<SOAP-ENV:Header>
+	<wsa:MessageID>uuid:E9445608-A1BE-11EB-A9AA-47768394446F</wsa:MessageID>
+	<wsa:Action>urn:nhs:names:services:pdsquery/QUPA_IN000005UK03</wsa:Action>
+	<wsa:To>https://10.239.14.26/reliablemessaging/queryrequest</wsa:To>
+	<wsa:From>
+		<wsa:Address>10.210.162.81</wsa:Address>
+	</wsa:From>
+	<hl7:communicationFunctionRcv>
+		<hl7:device>
+			<hl7:id root="1.2.826.0.1285.0.2.0.107" extension="908232220511"/>
+		</hl7:device>
+	</hl7:communicationFunctionRcv>
+	<hl7:communicationFunctionSnd>
+		<hl7:device>
+			<hl7:id root="1.2.826.0.1285.0.2.0.107" extension="715373337545"/>
+		</hl7:device>
+	</hl7:communicationFunctionSnd>
+	<wsa:ReplyTo>
+		<wsa:Address>10.210.162.81</wsa:Address>
+	</wsa:ReplyTo>
+</SOAP-ENV:Header>
+<SOAP-ENV:Body>
+<QUPA_IN000005UK03 xmlns="urn:hl7-org:v3">
+    <id root="51A09DE6-0867-4EF8-96B6-911CA299332E" />
+    <creationTime value="20210420105804" />
+    <versionCode code="V3NPfIT3.0" />
+    <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPA_IN000005UK03" />
+    <processingCode code="P" />
+    <processingModeCode code="T" />
+    <acceptAckCode code="NE" />
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!--Destination ASID derived from file /mnt/encrypted/home/simonfarrow/Documents/msgxmit1/yea_s2_int.xml for environment sp2.int-->
+            <id root="1.2.826.0.1285.0.2.0.107" extension="908232220511" />
+        </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!--Source ASID derived from file /mnt/encrypted/home/simonfarrow/Documents/msgxmit1/yea_s2_int.xml for environment sp2.int-->
+            <id root="1.2.826.0.1285.0.2.0.107" extension="715373337545" />
+        </device>
+    </communicationFunctionSnd>
+    <ControlActEvent classCode="CACT" moodCode="EVN">
+        <author typeCode="AUT">
+            <AgentPersonSDS classCode="AGNT">
+                <id root="1.2.826.0.1285.0.2.0.67" extension="781733617547" />
+                <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.65" extension="102053919984" />
+                </agentPersonSDS>
+                <part typeCode="PART">
+                    <partSDSRole classCode="ROL">
+                        <id root="1.2.826.0.1285.0.2.1.104" extension="ABCD" />
+                    </partSDSRole>
+                </part>
+            </AgentPersonSDS>
+        </author>
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="715373337545" />
+                </agentSystemSDS>
+            </AgentSystemSDS>
+        </author1>
+        <query>
+            <!-- mim 6,7 template -->
+            <!-- this person exists on NIS1 -->
+            <person.administrativeGenderCode>
+                <semanticsText>Person.administrativeGenderCode</semanticsText>
+                <value code="1" />
+            </person.administrativeGenderCode>
+            <person.birthTime>
+                <semanticsText>Person.birthTime</semanticsText>
+                <value value="19920101" />
+            </person.birthTime>
+            <person.name>
+                <!-- Usual name with initial -->
+                <semanticsText>Person.name</semanticsText>
+                <value>
+                    <given>SCOTT</given>
+                    <family>DOTSON</family>
+                </value>
+            </person.name>
+        </query>
+    </ControlActEvent>
+</QUPA_IN000005UK03></SOAP-ENV:Body></SOAP-ENV:Envelope>
