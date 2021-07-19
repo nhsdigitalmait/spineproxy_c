@@ -4,8 +4,11 @@
 # content-length must be correct!
 #
 
-PROXY1=baldricks
+PROXY=baldricks
 #PROXY=whernside
-PROXY=centos-jump
+#PROXY=centos-jump
 
-nc $PROXY 4300 < QUPA_IN000005UK03.$PROXY.txt
+INT=QUPA_IN000005UK03
+INT=QUPA_IN000006UK02
+
+nc $PROXY 4300 < $INT.$PROXY.txt
