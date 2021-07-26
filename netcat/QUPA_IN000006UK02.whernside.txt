@@ -1,7 +1,7 @@
 POST /reliablemessaging/queryrequest HTTP/1.1
-Host: 192.168.128.11
+Host: 10.239.14.26
 SOAPAction: urn:nhs:names:services:pdsquery/QUPA_IN000006UK02
-Content-Length: 6305
+Content-Length: 6304
 Content-Type: multipart/related; boundary="--=_MIME-Boundary"; type="text/xml"; start="<ebXMLHeader@spine.nhs.uk>"
 Connection: close
 
@@ -18,7 +18,7 @@ Content-Transfer-Encoding: 8bit
 			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">X26-9199246</eb:PartyId>
 		</eb:From>
 		<eb:To>
-			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">YES-0000806</eb:PartyId>
+			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">YEA-801248</eb:PartyId>
 		</eb:To>
 		<eb:CPAId>S2001924A2012004</eb:CPAId>
 		<eb:ConversationId>F8C8FBFD-E89E-11EB-86CA-3B8608557050</eb:ConversationId>
@@ -67,7 +67,7 @@ Content-Transfer-Encoding: 8bit
     <communicationFunctionSnd typeCode="SND">
         <device classCode="DEV" determinerCode="INSTANCE">
             <!--Source ASID derived from file /mnt/encrypted/home/simonfarrow/Documents/msgxmit1/yea_s2_int.xml for environment sp2.int-->
-            <id root="1.2.826.0.1285.0.2.0.107" extension="918999199246" />
+            <id root="1.2.826.0.1285.0.2.0.107" extension="200000000375" />
         </device>
     </communicationFunctionSnd>
     <ControlActEvent classCode="CACT" moodCode="EVN">
@@ -87,7 +87,7 @@ Content-Transfer-Encoding: 8bit
         <author1 typeCode="AUT">
             <AgentSystemSDS classCode="AGNT">
                 <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="918999199246" />
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="200000000375" />
                 </agentSystemSDS>
             </AgentSystemSDS>
         </author1>
