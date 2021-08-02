@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+# exercises the spineproxy
 #
 OPTIONS="-v "
 # nb the proxy prefix
@@ -14,6 +14,12 @@ OPTIONS+=" --tlsv1.2 --tls-max 1.2"
 
 ROOT=$HOME/Documents/certs/OpenTest/OpenTestCerts_4
 SUBJECT=vpn-client-1003.opentest.hscic.gov.uk
+
+# for fromnis to accepts a message it MUST contain a case insensitive match with :messageid
+# see session.c line 700 otherwise we get
+# Timing out fromnis session from 127.0.0.1 to vpn-client-1003.opentest.hscic.gov.uk:4432 MsgId: UNKNOWN: Connection timed out
+# Error logging remaining data: Bad file descriptor
+# Logfile close: Bad file descriptor
 
 PAYLOAD="-d '<wsa:MessageID>uuid:2BA6C8AD-097A-11E7-8EF8-738711186A40</wsa:MessageID>'"
 
@@ -31,7 +37,12 @@ case $1 in
 	TRUST="--cacert $ROOT/opentest.pem"
 
 	CERTSET="--cert $ROOT/$SUBJECT.cer --key $ROOT/$SUBJECT.key --pass password"
-	DEST="https://$SUBJECT:4432"
+
+	# subverted by hosts to localhost
+	#DEST="https://$SUBJECT:4432"
+
+	# centos-jump Opentest
+	DEST="https://spineproxy.opentest.hscic.gov.uk"
 	;;
 
 	lfc)

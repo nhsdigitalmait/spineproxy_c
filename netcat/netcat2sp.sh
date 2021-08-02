@@ -4,11 +4,12 @@
 # content-length must be correct!
 #
 
-PROXY=baldricks
-#PROXY=whernside
+#PROXY=baldricks
+PROXY=whernside
 #PROXY=centos-jump
 
-INT=QUPA_IN000005UK03
-INT=QUPA_IN000006UK02
+#INT=QUPA_IN000005UK03 # Simple trace
+INT=QUPA_IN000006UK02 # advanced trace
+#INT=COPC_IN000001UK01 # gp2gp
 
 nc $PROXY 4300 < $INT.$PROXY.txt

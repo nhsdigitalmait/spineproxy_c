@@ -1,7 +1,7 @@
 POST /reliablemessaging/queryrequest HTTP/1.1
 Host: 10.239.14.26
 SOAPAction: urn:nhs:names:services:pdsquery/QUPA_IN000006UK02
-Content-Length: 6304
+Content-Length: 6303
 Content-Type: multipart/related; boundary="--=_MIME-Boundary"; type="text/xml"; start="<ebXMLHeader@spine.nhs.uk>"
 Connection: close
 
@@ -15,7 +15,7 @@ Content-Transfer-Encoding: 8bit
 <SOAP:Header>
 	<eb:MessageHeader SOAP:mustUnderstand="1" eb:version="2.0">
 		<eb:From>
-			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">X26-9199246</eb:PartyId>
+			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">RHM-821022</eb:PartyId>
 		</eb:From>
 		<eb:To>
 			<eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">YEA-801248</eb:PartyId>
